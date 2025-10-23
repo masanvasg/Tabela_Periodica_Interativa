@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Periódica Interativa</title>
+    
+    <!-- Carregando o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- === BIBLIOTECAS 3D (THREE.JS) === -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+
+    <!-- === NOSSOS ARQUIVOS DE ESTILO E SCRIPT === -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="p-4 md:p-8">
+
+
+    <header class="text-center mb-8">
+        <h1 class="text-3xl md:text-5xl font-bold text-gray-800">Tabela Periódica Interativa</h1>
+        <p class="text-lg text-gray-600 mt-2">Clique em um elemento para ver os detalhes</p>
+    </header>
+
+
+    <!-- Contêiner da Tabela Periódica -->
+    <main>
+        <div id="periodic-table" class="mb-4">
+            <!-- Os elementos serão inseridos aqui pelo JavaScript -->
+        </div>
+
+
+        <!-- Legenda de Cores -->
+        <div class="flex flex-wrap justify-center gap-2 md:gap-4 max-w-5xl mx-auto p-4 bg-white rounded-lg shadow-md">
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-metal-alcalino"></span><span class="text-xs md:text-sm">Metal Alcalino</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-alcalino-terroso"></span><span class="text-xs md:text-sm">Alcalino-Terroso</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-metal-transicao"></span><span class="text-xs md:text-sm">Metal de Transição</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-outros-metais"></span><span class="text-xs md:text-sm">Outros Metais</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-semimetal"></span><span class="text-xs md:text-sm">Semimetal</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-nao-metal"></span><span class="text-xs md:text-sm">Não-metal</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-halogenio"></span><span class="text-xs md:text-sm">Halogênio</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-gas-nobre"></span><span class="text-xs md:text-sm">Gás Nobre</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-lantanideo"></span><span class="text-xs md:text-sm">Lantanídeo</span></div>
+            <div class="flex items-center"><span class="w-4 h-4 rounded mr-2 grupo-actinideo"></span><span class="text-xs md:text-sm">Actinídeo</span></div>
+        </div>
+    </main>
+
+
+    <!-- Modal (Janela de Informações) - Inicialmente Oculto -->
+    <div id="element-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 invisible opacity-0">
+        <!-- Fundo Escuro (Backdrop) -->
+        <div id="modal-backdrop" class="absolute inset-0 bg-black opacity-0"></div>
+        
+        <!-- Conteúdo do Modal -->
+        <div id="modal-content" class="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl p-6 md:p-8 opacity-0 transform scale-95">
+            <!-- Botão de Fechar -->
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <!-- Cabeçalho do Modal -->
+            <div class="flex items-center mb-4">
+                <div id="modal-symbol-box" class="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-lg mr-4">
+                    <span id="modal-symbol" class="text-3xl md:text-4xl font-bold"></span>
+                </div>
+                <div>
+                    <h2 id="modal-name" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
+                    <p id="modal-group" class="text-sm text-gray-600"></p>
+                </div>
+            </div>
+
+
+            <!-- Corpo do Modal - AGORA É O CONTÊINER 3D -->
+            <div id="cube-container" class="w-full h-80 bg-gray-100 rounded-lg relative mt-4">
+                <!-- O canvas do three.js será injetado aqui -->
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-2">Arraste o mouse para girar o cubo. Faces com ✨ são geradas por IA.</p>
+
+
+        </div>
+    </div>
+
+
+    <!-- Nosso script principal, carregado no final -->
+    <script src="script.js"></script>
+</body>
+</html>
