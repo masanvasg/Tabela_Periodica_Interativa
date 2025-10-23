@@ -38,4 +38,5 @@ JavaScript (ES6+): Para a lógica de programação, manipulação de eventos (cl
 💻 Como Usar
 Não é necessária nenhuma instalação. Você pode acessar e interagir com a tabela diretamente pelo navegador.
 
-Acesse o projeto aqui: [https://SEU-USUARIO.github.io/SEU-REPOSITORIO/]
+Acesse o projeto aqui: https://github.com/masanvasg/Tabela_Periodica_Interativa.git
+
