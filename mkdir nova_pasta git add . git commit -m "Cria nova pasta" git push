@@ -1,0 +1,5 @@
+mkdir nova_pasta
+git add .
+git commit -m "Cria nova pasta"
+git push
+
