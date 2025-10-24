@@ -293,6 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function initCube(el, groupClass, groupName) {
         const container = document.getElementById('cube-container');
+
+        // --- ALTERAÇÃO 1: Adicionar o Carregador de Textura ---
+        const textureLoader = new THREE.TextureLoader();
         
         // 1. Cena
         scene = new THREE.Scene();
@@ -320,12 +323,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 5. Preparar dados das faces (AGORA COM DADOS REAIS)
         const faceData = [
+            // Face 0 (Índice 0) será a IMAGEM. Deixamos aqui só como referência.
             { title: "Elemento", lines: [el.nome, el.simbolo, `Nº Atômico: ${el.numero}`], color: groupClass },
+            // Face 1 (Índice 1)
             { title: "Propriedades", lines: [`Massa: ${el.massa} u`, `Grupo: ${groupName}`], color: 'grupo-outros-metais' },
+            // Face 2 (Índice 2)
             { title: "Configuração", lines: [el.config], color: 'grupo-semimetal' },
-            // Dados reais, lidos do objeto 'el'
+            // Face 3 (Índice 3)
             { title: "Descoberta", lines: [`${el.descobridor}`, `Ano: ${el.ano}`], color: 'grupo-nao-metal' },
+            // Face 4 (Índice 4)
             { title: "Onde é Encontrado", lines: [el.encontrado_em], color: 'grupo-halogenio' },
+            // Face 5 (Índice 5)
             { title: "Onde é Utilizado", lines: [el.utilizado_em], color: 'grupo-gas-nobre' }
         ];
         
@@ -344,18 +352,36 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
 
-        // 6. Criar materiais (texturas)
-        const materials = faceData.map(data => {
-            const texture = createFaceTexture(
-                data.title, 
-                data.lines, 
-                colorMap[data.color] || '#ffffff', 
-                '#333333' // Cor do texto
-            );
-            return new THREE.MeshBasicMaterial({ map: texture });
-        });
+        // --- ALTERAÇÃO 2: Lógica de criação de materiais ---
+        // Vamos criar os materiais com uma condição:
+        // Se for a face 0, carrega a imagem.
+        // Se não, usa a função createFaceTexture.
         
-        // REMOVIDO: Não precisamos mais salvar referências dinâmicas
+        const materials = faceData.map((data, index) => {
+            
+            if (index === 0) {
+                // É a Face 1 (índice 0)
+                // Gera o caminho da imagem, ex: "images/H.png"
+                const imagePath = `images/${el.simbolo}.png`; 
+                
+                // Carrega a textura da imagem
+                const imageTexture = textureLoader.load(imagePath);
+                
+                // Retorna o material com a imagem
+                return new THREE.MeshBasicMaterial({ map: imageTexture });
+
+            } else {
+                // É qualquer outra face (índices 1 a 5)
+                // Usa a função de canvas existente
+                const texture = createFaceTexture(
+                    data.title, 
+                    data.lines, 
+                    colorMap[data.color] || '#ffffff', 
+                    '#333333' // Cor do texto
+                );
+                return new THREE.MeshBasicMaterial({ map: texture });
+            }
+        });
 
 
         // 7. Geometria e Mesh (O Cubo)
@@ -377,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Responsividade da janela
         window.addEventListener('resize', onWindowResize, false);
     }
-
 
     /**
      * Ajusta a câmera e o renderizador ao redimensionar a janela
@@ -501,3 +526,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Inicialização da Aplicação ---
     createTable();
 });
+
